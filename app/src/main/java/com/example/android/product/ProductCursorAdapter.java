@@ -1,4 +1,4 @@
-package com.example.android.pets;
+package com.example.android.product;
 
 /**
  * Created by l4z on 16.07.2017.
@@ -12,17 +12,17 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.example.android.pets.data.PetContract;
+import com.example.android.product.data.ProductContract;
 
-public class PetCursorAdapter extends CursorAdapter {
+public class ProductCursorAdapter extends CursorAdapter {
 
     /**
-     * Constructs a new {@link PetCursorAdapter}.
+     * Constructs a new {@link ProductCursorAdapter}.
      *
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public PetCursorAdapter(Context context, Cursor c) {
+    public ProductCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
     }
 
@@ -42,8 +42,8 @@ public class PetCursorAdapter extends CursorAdapter {
     }
 
     /**
-     * This method binds the pet data (in the current row pointed to by cursor) to the given
-     * list item layout. For example, the name for the current pet can be set on the name TextView
+     * This method binds the product data (in the current row pointed to by cursor) to the given
+     * list item layout. For example, the name for the current product can be set on the name TextView
      * in the list item layout.
      *
      * @param view    Existing view, returned earlier by newView() method
@@ -57,21 +57,21 @@ public class PetCursorAdapter extends CursorAdapter {
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
 
-        // Find the columns of pet attributes that we're interested in
-        int nameColumnIndex = cursor.getColumnIndex(PetContract.PetEntry.COLUMN_PET_NAME);
-        int breedColumnIndex = cursor.getColumnIndex(PetContract.PetEntry.COLUMN_PET_BREED);
+        // Find the columns of product attributes that we're interested in
+        int nameColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME);
+        int breedColumnIndex = cursor.getColumnIndex(ProductContract.ProductEntry.COLUMN_PET_BREED);
 
-        // Read the pet attributes from the Cursor for the current pet
+        // Read the product attributes from the Cursor for the current product
         String petName = cursor.getString(nameColumnIndex);
         String petBreed = cursor.getString(breedColumnIndex);
 
-        // If the pet breed is empty string or null, then use some default text
+        // If the product breed is empty string or null, then use some default text
         // that says "Unknown breed", so the TextView isn't blank.
         if (TextUtils.isEmpty(petBreed)) {
             petBreed = context.getString(R.string.unknown_breed);
         }
 
-        // Update the TextViews with the attributes for the current pet
+        // Update the TextViews with the attributes for the current product
         nameTextView.setText(petName);
         summaryTextView.setText(petBreed);
     }

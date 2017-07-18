@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.pets;
+package com.example.android.product;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -33,17 +33,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import static com.example.android.pets.data.PetContract.PetEntry;
+import com.example.android.product.data.ProductContract;
 
 /**
- * Displays list of pets that were entered and stored in the app.
+ * Displays list of products that were entered and stored in the app.
  */
 public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
     private static final int PET_LOADER = 0;
 
-    PetCursorAdapter mCursorAdapter;
+    ProductCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +55,9 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         Uri currentPetUri = intent.getData();
 
         if (currentPetUri == null) {
-            setTitle("Add a Pet");
+            setTitle("Add a Product");
         } else {
-            setTitle(getString(R.string.editor_activity_title_edit_pet));
+            setTitle(getString(R.string.editor_activity_title_edit_product));
         }
 
         // Setup FAB to open EditorActivity
@@ -70,14 +70,14 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-        // Find the ListView which will be populated with the pet data
+        // Find the ListView which will be populated with the product data
         ListView petListView = (ListView) findViewById(R.id.list);
 
         // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
         View emptyView = findViewById(R.id.empty_view);
         petListView.setEmptyView(emptyView);
 
-        mCursorAdapter = new PetCursorAdapter(this, null);
+        mCursorAdapter = new ProductCursorAdapter(this, null);
         petListView.setAdapter(mCursorAdapter);
 
 
@@ -88,7 +88,7 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 // Create new intente to go to {@link EditorActivity}
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
 
-                Uri currentPetUri = ContentUris.withAppendedId(PetEntry.CONTENT_URI, id);
+                Uri currentPetUri = ContentUris.withAppendedId(ProductContract.ProductEntry.CONTENT_URI, id);
 
                 intent.setData(currentPetUri);
 
@@ -100,22 +100,22 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     /**
-     * Helper method to insert hardcoded pet data into the database. For debugging purposes only.
+     * Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
     private void insertPet() {
         // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
+        // and Toto's product attributes are the values.
         ContentValues values = new ContentValues();
-        values.put(PetEntry.COLUMN_PET_NAME, "Toto");
-        values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
-        values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
-        values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
+        values.put(ProductContract.ProductEntry.COLUMN_PRODUCT_NAME, "Toto");
+        values.put(ProductContract.ProductEntry.COLUMN_PET_BREED, "Terrier");
+        values.put(ProductContract.ProductEntry.COLUMN_PET_GENDER, ProductContract.ProductEntry.GENDER_MALE);
+        values.put(ProductContract.ProductEntry.COLUMN_PET_WEIGHT, 7);
 
         // Insert a new row for Toto into the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
-        // into the pets database table.
+        // Use the {@link ProductEntry#CONTENT_URI} to indicate that we want to insert
+        // into the products database table.
         // Receive the new content URI that will allow us to access Toto's data in the future.
-        Uri newUri = getContentResolver().insert(PetEntry.CONTENT_URI, values);
+        Uri newUri = getContentResolver().insert(ProductContract.ProductEntry.CONTENT_URI, values);
     }
 
     @Override
@@ -147,14 +147,14 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
-                PetEntry._ID,
-                PetEntry.COLUMN_PET_NAME,
-                PetEntry.COLUMN_PET_BREED};
+                ProductContract.ProductEntry._ID,
+                ProductContract.ProductEntry.COLUMN_PRODUCT_NAME,
+                ProductContract.ProductEntry.COLUMN_PET_BREED};
 
         // Perform a query on the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to access the pet data.
+        // Use the {@link ProductEntry#CONTENT_URI} to access the product data.
         return new CursorLoader(this,
-                PetEntry.CONTENT_URI,
+                ProductContract.ProductEntry.CONTENT_URI,
                 projection,
                 null,
                 null,
@@ -172,10 +172,10 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
     }
 
     /**
-     * Helper method to delete all pets in the database.
+     * Helper method to delete all products in the database.
      */
     private void deleteAllPets() {
-        int rowsDeleted = getContentResolver().delete(PetEntry.CONTENT_URI, null, null);
+        int rowsDeleted = getContentResolver().delete(ProductContract.ProductEntry.CONTENT_URI, null, null);
         Log.v("CatalogActivity", rowsDeleted + " rows deleted from pet database");
     }
 }
